@@ -23,8 +23,8 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 # Expor porta HTTP padrão
 EXPOSE 80
 
-# Healthcheck nativo
-HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
-  CMD wget --quiet --tries=1 --spider http://localhost/ || exit 1
+# Healthcheck usando 127.0.0.1 para suporte tanto a IPv4 quanto IPv6 sem resolução de DNS
+HEALTHCHECK --interval=15s --timeout=3s --retries=3 \
+  CMD wget --quiet --tries=1 --spider http://127.0.0.1/ || exit 1
 
 CMD ["nginx", "-g", "daemon off;"]
