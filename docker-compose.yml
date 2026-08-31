@@ -6,7 +6,8 @@ services:
     container_name: vb-portfolio
     restart: unless-stopped
     ports:
-      - "3000:80"
+      # Porta 3080 no host para evitar conflito com portas 3000 padrão (Grafana, n8n, etc.)
+      - "${PORTFOLIO_PORT:-3080}:80"
     environment:
       - NODE_ENV=production
     labels:
@@ -14,3 +15,4 @@ services:
       - "traefik.http.routers.portfolio.rule=Host(`nhr-ai.com`)"
       - "traefik.http.routers.portfolio.entrypoints=websecure"
       - "traefik.http.routers.portfolio.tls.certresolver=letsencrypt"
+      - "traefik.http.services.portfolio.loadbalancer.server.port=80"
