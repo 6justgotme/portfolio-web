@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 180" width="100%" height="100%">
+  <defs>
+    <linearGradient id="pipeBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06070B"/>
+      <stop offset="100%" stop-color="#0A0D15"/>
+    </linearGradient>
+    <linearGradient id="streamGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6366F1"/>
+      <stop offset="50%" stop-color="#A855F7"/>
+      <stop offset="100%" stop-color="#06B6D4"/>
+    </linearGradient>
+    <filter id="nodeGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <style>
+    @keyframes pulsePulse {
+      0% { stroke-dashoffset: 200; }
+      100% { stroke-dashoffset: 0; }
+    }
+    @keyframes nodeActive {
+      0%, 100% { transform: translateY(0px) scale(1); filter: drop-shadow(0 0 4px rgba(99,102,241,0.2)); }
+      50% { transform: translateY(-3px) scale(1.03); filter: drop-shadow(0 0 16px rgba(168,85,247,0.5)); }
+    }
+    @keyframes packetFlow {
+      0% { offset-distance: 0%; opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { offset-distance: 100%; opacity: 0; }
+    }
+    .flow-line {
+      stroke-dasharray: 8 6;
+      animation: pulsePulse 3s linear infinite;
+    }
+    .node-1 { animation: nodeActive 4s ease-in-out infinite; animation-delay: 0s; }
+    .node-2 { animation: nodeActive 4s ease-in-out infinite; animation-delay: 0.8s; }
+    .node-3 { animation: nodeActive 4s ease-in-out infinite; animation-delay: 1.6s; }
+    .node-4 { animation: nodeActive 4s ease-in-out infinite; animation-delay: 2.4s; }
+    .node-5 { animation: nodeActive 4s ease-in-out infinite; animation-delay: 3.2s; }
+  </style>
+
+  <!-- Background -->
+  <rect width="900" height="180" rx="14" fill="url(#pipeBg)" stroke="#1A1F30" stroke-width="1.2"/>
+
+  <!-- Connecting Bus Lines -->
+  <line x1="110" y1="80" x2="790" y2="80" stroke="#1E2638" stroke-width="3"/>
+  <line x1="110" y1="80" x2="790" y2="80" stroke="url(#streamGrad)" stroke-width="2.5" class="flow-line"/>
+
+  <!-- NODE 1: Ingress -->
+  <g transform="translate(110, 80)" class="node-1">
+    <circle cx="0" cy="0" r="28" fill="#0E1222" stroke="#6366F1" stroke-width="2"/>
+    <text x="0" y="-3" text-anchor="middle" fill="#FFFFFF" font-family="monospace" font-size="12" font-weight="700">01</text>
+    <text x="0" y="11" text-anchor="middle" fill="#818CF8" font-family="monospace" font-size="8">INGRESS</text>
+    <text x="0" y="44" text-anchor="middle" fill="#FFFFFF" font-family="-apple-system, sans-serif" font-size="11" font-weight="500">Cron &amp; Jitter</text>
+    <text x="0" y="58" text-anchor="middle" fill="#64748B" font-family="monospace" font-size="9">n8n / Anti-Ban</text>
+  </g>
+
+  <!-- NODE 2: Buffer -->
+  <g transform="translate(280, 80)" class="node-2">
+    <circle cx="0" cy="0" r="28" fill="#0E1222" stroke="#A855F7" stroke-width="2"/>
+    <text x="0" y="-3" text-anchor="middle" fill="#FFFFFF" font-family="monospace" font-size="12" font-weight="700">02</text>
+    <text x="0" y="11" text-anchor="middle" fill="#C084FC" font-family="monospace" font-size="8">BUFFER</text>
+    <text x="0" y="44" text-anchor="middle" fill="#FFFFFF" font-family="-apple-system, sans-serif" font-size="11" font-weight="500">Redis Debounce</text>
+    <text x="0" y="58" text-anchor="middle" fill="#64748B" font-family="monospace" font-size="9">8s Window Lock</text>
+  </g>
+
+  <!-- NODE 3: Reasoning -->
+  <g transform="translate(450, 80)" class="node-3">
+    <circle cx="0" cy="0" r="32" fill="#13172E" stroke="#FFFFFF" stroke-width="2.5"/>
+    <text x="0" y="-4" text-anchor="middle" fill="#FFFFFF" font-family="monospace" font-size="14" font-weight="800">03</text>
+    <text x="0" y="12" text-anchor="middle" fill="#22D3EE" font-family="monospace" font-size="8.5" font-weight="700">AI AGENT</text>
+    <text x="0" y="48" text-anchor="middle" fill="#FFFFFF" font-family="-apple-system, sans-serif" font-size="11.5" font-weight="600">Claude 3.5 RAG</text>
+    <text x="0" y="62" text-anchor="middle" fill="#64748B" font-family="monospace" font-size="9">Tool Calling &middot; AST</text>
+  </g>
+
+  <!-- NODE 4: Telemetry -->
+  <g transform="translate(620, 80)" class="node-4">
+    <circle cx="0" cy="0" r="28" fill="#0E1222" stroke="#06B6D4" stroke-width="2"/>
+    <text x="0" y="-3" text-anchor="middle" fill="#FFFFFF" font-family="monospace" font-size="12" font-weight="700">04</text>
+    <text x="0" y="11" text-anchor="middle" fill="#22D3EE" font-family="monospace" font-size="8">TELEMETRY</text>
+    <text x="0" y="44" text-anchor="middle" fill="#FFFFFF" font-family="-apple-system, sans-serif" font-size="11" font-weight="500">Prometheus / P99</text>
+    <text x="0" y="58" text-anchor="middle" fill="#64748B" font-family="monospace" font-size="9">SLA Sentinel Hub</text>
+  </g>
+
+  <!-- NODE 5: Dispatch -->
+  <g transform="translate(790, 80)" class="node-5">
+    <circle cx="0" cy="0" r="28" fill="#0E1222" stroke="#10B981" stroke-width="2"/>
+    <text x="0" y="-3" text-anchor="middle" fill="#FFFFFF" font-family="monospace" font-size="12" font-weight="700">05</text>
+    <text x="0" y="11" text-anchor="middle" fill="#34D399" font-family="monospace" font-size="8">DELIVERY</text>
+    <text x="0" y="44" text-anchor="middle" fill="#FFFFFF" font-family="-apple-system, sans-serif" font-size="11" font-weight="500">Evolution Go</text>
+    <text x="0" y="58" text-anchor="middle" fill="#64748B" font-family="monospace" font-size="9">12.8k msg/s Socket</text>
+  </g>
+</svg>
